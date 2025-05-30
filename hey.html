@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Пример полноэкранного режима с jQuery</title>
+    <title>Оптимизированный полноэкранный режим с jQuery</title>
     <style>
         body {
             display: flex;
@@ -17,9 +17,15 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            transition: all .3s ease-in-out;
+        }
+        
+        button.active {
+            color: white;
+            background-color: blue;
         }
     </style>
-    <!-- Подключаем библиотеку jQuery -->
+    <!-- Подключение библиотеки jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 <body>
@@ -28,31 +34,34 @@
     <script>
         $(document).ready(function(){
             $('#fullscreenBtn').on('click', function() {
-                var elem = $('html')[0]; // Получаем HTML-элемент документа
-
-                if (!document.fullscreenElement && !document.webkitFullscreenElement &&
-                    !document.mozFullScreenElement && !document.msFullscreenElement) {
-                    // Вход в полноэкранный режим
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) { /* Safari */
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                        elem.msRequestFullscreen();
-                    } else if (elem.mozRequestFullScreen) { /* Firefox */
-                        elem.mozRequestFullScreen();
-                    }
-                } else {
-                    // Выход из полноэкранного режима
+                var elem = $('html')[0];
+                
+                if ($('#fullscreenBtn').hasClass('active')) {
+                    // Выходим из полноэкранного режима
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) { /* Safari */
+                    } else if (document.webkitExitFullscreen) {
                         document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) { /* IE/Edge */
+                    } else if (document.msExitFullscreen) {
                         document.msExitFullscreen();
-                    } else if (document.mozCancelFullScreen) { /* Firefox */
+                    } else if (document.mozCancelFullScreen) {
                         document.mozCancelFullScreen();
                     }
+                    
+                    $('#fullscreenBtn').removeClass('active');
+                } else {
+                    // Переход в полноэкранный режим
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    } else if (elem.mozRequestFullScreen) {
+                        elem.mozRequestFullScreen();
+                    }
+                    
+                    $('#fullscreenBtn').addClass('active');
                 }
             });
         });
