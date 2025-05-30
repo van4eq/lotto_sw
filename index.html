@@ -19,6 +19,7 @@ height:100vh;
 margin:0;
 -webkit-tap-highlight-color:transparent;
 }
+
 #logo{
 position:absolute;
 top:30px;
@@ -28,6 +29,7 @@ background-size:100%;
 width:200px;
 height:200px;
 }
+
 #lotto{
 margin:auto;
 width:100%;
@@ -69,7 +71,7 @@ cursor:pointer;
 #wrap_winners{
 font-size:1.5em;
 position:absolute;
-bottom:5vh;
+top:65vh;
 overflow:hidden;
 text-align:center;
 width:100%;
@@ -77,28 +79,24 @@ height:0;
 transition:height .4s;
 line-height:1.3em;
 }
-ul{
-display:none;
-}
 
 
 
-#fullscreen{
+#replay{
 position:absolute;
-bottom:5vh;
-right:40px;
+top:52px;
+right:120px;
 width:40px;
 height:40px;
 cursor:pointer;
+overflow:hidden;
 }
-#fullscreen svg{
-width:80%;
+#replay svg{
+width:40px;
 height:auto;
 display:block;
-margin:auto;
+margin-top:-1px;
 }
-
-
 
 #menu{
 cursor:pointer;
@@ -113,17 +111,30 @@ content:'';
 position:absolute;
 width:100%;
 left:0;
-height:3px;
+height:3.25px;
 }
 .menu{
 top:50%;
-margin-top:-1.5px;
+margin-top:-1.125px;
 }
 .menu:before{
 top:10px;
 }
 .menu:after{
 bottom:10px;
+}
+
+#fullscreen{
+position:absolute;
+bottom:52px;
+right:40px;
+width:40px;
+height:40px;
+cursor:pointer;
+}
+#fullscreen svg{
+height:auto;
+display:block;
 }
 
 #wrap_wrap_lightbox{
@@ -268,7 +279,7 @@ color:#84294B;
 #generate.theme_1{
 background:#D32C34;
 }
-#fullscreen svg path.theme_1{
+#replay svg path.theme_1,#fullscreen svg path.theme_1{
 fill:#84294B;
 }
 
@@ -287,7 +298,7 @@ color:#765E9A;
 #generate.theme_2{
 background:#EF86B7;
 }
-#fullscreen svg path.theme_2{
+#replay svg path.theme_2,#fullscreen svg path.theme_2{
 fill:#765E9A;
 }
 
@@ -306,7 +317,7 @@ color:#2376BA;
 #generate.theme_3{
 background:#74C95C;
 }
-#fullscreen svg path.theme_3{
+#replay svg path.theme_3,#fullscreen svg path.theme_3{
 fill:#2376BA;
 }
 
@@ -325,7 +336,7 @@ color:#5e62a9;
 #generate.theme_4{
 background:#FF6B6B;
 }
-#fullscreen svg path.theme_4{
+#replay svg path.theme_4,#fullscreen svg path.theme_4{
 fill:#5e62a9;
 }
 
@@ -344,7 +355,7 @@ color:#333;
 #generate.theme_5{
 background:#54BEEE;
 }
-#fullscreen svg path.theme_5{
+#replay svg path.theme_5,#fullscreen svg path.theme_5{
 fill:#333;
 }
 
@@ -377,7 +388,14 @@ width:250px;
 }
 </style>
 <div id="logo"></div>
+
+<div id="replay">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+		<path d="M18.5 8h-2.5v2h2.5c1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5h-13c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5h2.5v3l6-4-6-4v3h-2.5c-3.037 0-5.5 2.463-5.5 5.5s2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5s-2.463-5.5-5.5-5.5z"/>
+	</svg>
+</div>
 <div id="menu"><div class="menu"></div></div>
+
 <div id="lotto">
 	<div id="wrap_wrap_number">
 		<div id="wrap_number">
@@ -385,11 +403,11 @@ width:250px;
 		</div>
 	</div>
 	<div id="generate">Разыграть</div>
-	<ul></ul>
 </div>
 <div id="wrap_winners">
 	<div id="winners"></div>
 </div>
+
 <div id="fullscreen">
 	<svg viewBox="0 0 24 24">
 		<path d="M24 9h-2v-5h-7v-2h9v7zm-9 13v-2h7v-5h2v7h-9zm-15-7h2v5h7v2h-9v-7zm9-13v2h-7v5h-2v-7h9z"/>
@@ -429,21 +447,41 @@ $(document).ready(function(){
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
 	}
-	var click=0;
-	let random=[];
+	let click;
+	let random;
 	let total;
 	let prizes;
-	setTimeout(()=>{
-		total=prompt('Сколько будет участников?','30');
-		if(total!=null){
-			prizes=prompt('Сколько будет призов?','3');
-			if(prizes!=null){
-				$('#generate').addClass('open');
+	function lotto(){
+		click=0;
+		random=[];
+		setTimeout(()=>{
+			$('#winners').html('');
+			total=prompt('Сколько будет участников?','30');
+			if(total!=null){
+				prizes=prompt('Сколько будет призов?','3');
+				if(prizes!=null){
+					$('#generate').addClass('open');
+				}
+			}else{
+				$('#generate').removeClass('open');
 			}
-		}else{
-			$('#generate').removeClass('open');
+		},400);
+	}
+	
+	$('#replay').click(function(){
+		var replay=confirm('Начать новый розыгрыш?');
+		if(replay){
+			if(click>0){
+				$('title').text($('[name=header]:checked+label').text()+'!');
+				$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
+				$('#wrap_number').animate({height:$('#number').height()},0);
+			}
+
+			$('#wrap_winners').animate({height:0},0);
+
+			lotto();
 		}
-	},400);
+	});
 	
 	$('#generate').click(function(){
 		if($('#generate').hasClass('open')&&click<total&&click<prizes){
@@ -540,8 +578,8 @@ $(document).ready(function(){
 	});
 
 	$('#fullscreen').click(function(){
-		var elem = $('html')[0];
-		if($('#fullscreen').hasClass('open')){
+		var fullscr=$('html')[0];
+		if($('#fullscreen').hasClass('open')){ //закрываем полноэкранный режим
 			if(document.exitFullscreen){
 				document.exitFullscreen();
 			}else if(document.webkitExitFullscreen){
@@ -552,15 +590,15 @@ $(document).ready(function(){
 				document.mozCancelFullScreen();
 			}
 			$('#fullscreen').removeClass('open');
-		}else{
-			if(elem.requestFullscreen){
-				elem.requestFullscreen();
-			}else if(elem.webkitRequestFullscreen){
-				elem.webkitRequestFullscreen();
-			}else if(elem.msRequestFullscreen){
-				elem.msRequestFullscreen();
-			}else if(elem.mozRequestFullScreen){
-				elem.mozRequestFullScreen();
+		}else{ //открываем полноэкранный режим
+			if(fullscr.requestFullscreen){
+				fullscr.requestFullscreen();
+			}else if(fullscr.webkitRequestFullscreen){
+				fullscr.webkitRequestFullscreen();
+			}else if(fullscr.msRequestFullscreen){
+				fullscr.msRequestFullscreen();
+			}else if(fullscr.mozRequestFullScreen){
+				fullscr.mozRequestFullScreen();
 			}
 			$('#fullscreen').addClass('open');
 		}
@@ -573,7 +611,11 @@ $(document).ready(function(){
 
 	$('[name=header]').click(function(){
 		localStorage['lotto_header']=$(this).attr('id');
-		$('#number span,title').text($('[name=header]:checked+label').text()+'!');
+		if(click==undefined||click==0){
+			$('title').text($('[name=header]:checked+label').text()+'!');
+			$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
+			$('#wrap_number').animate({height:$('#number').height()},0);
+		}
 	});
 
 
@@ -600,4 +642,4 @@ $(document).ready(function(){
 		}
 	});
 });
-</script>
+		   </script>
