@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=.85,user-scalable=no">
+<link rel="icon" href="https://ru.siberianhealth.com/shopen/public/icon.svg" type="image/svg+xml">
+<title>Розыгрыш!</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600&display=swap');
+body{
+font-family:Google Sans;
+font-weight:500;
+text-align:center;
+display:flex;
+width:100vw;
+height:100vh;
+margin:0;
+-webkit-tap-highlight-color:transparent;
+}
+#logo{
+position:absolute;
+top:30px;
+left:40px;
+background:url(https://ru.siberianhealth.com/static/rebranding/img/5a5c906883b9701f898e2281/1160434/upload-046af4b0-b821-11e8-89d0-798fa202fe62.png) 0 0 no-repeat;
+background-size:100%;
+width:200px;
+height:200px;
+}
+#lotto{
+margin:auto;
+width:100%;
+font-size:1.5em;
+}
+#wrap_wrap_number{
+user-select:none;
+text-align:center;
+margin:-40px auto 40px;
+font-size:1.8em;
+position:relative;
+height:1.3em;
+overflow:hidden;
+}
+#wrap_number{
+position:absolute;
+bottom:0;
+width:100%;
+height:1.3em;
+line-height:1.3em;
+transition:height .4s;
+}
+#generate{
+user-select:none;
+padding:20px 30px;
+border-radius:40px;
+width:150px;
+margin:auto;
+color:rgba(255,255,255,.4);
+text-transform:uppercase;
+letter-spacing:1px;
+transition:color .4s;
+}
+#generate.open{
+color:rgba(255,255,255,1);
+cursor:pointer;
+}
+
+#wrap_winners{
+font-size:1.5em;
+position:absolute;
+bottom:5vh;
+overflow:hidden;
+text-align:center;
+width:100%;
+height:0;
+transition:height .4s;
+line-height:1.3em;
+}
+ul{
+display:none;
+}
+
+
+
+#fullscreen{
+position:absolute;
+bottom:5vh;
+right:40px;
+width:40px;
+height:40px;
+cursor:pointer;
+}
+#fullscreen svg{
+width:80%;
+height:auto;
+display:block;
+margin:auto;
+}
+
+
+
+#menu{
+cursor:pointer;
+position:absolute;
+top:52px;
+right:40px;
+width:40px;
+height:40px;
+}
+.menu,.menu:before,.menu:after{
+content:'';
+position:absolute;
+width:100%;
+left:0;
+height:3px;
+}
+.menu{
+top:50%;
+margin-top:-1.5px;
+}
+.menu:before{
+top:10px;
+}
+.menu:after{
+bottom:10px;
+}
+
+#wrap_wrap_lightbox{
+display:none;
+opacity:0;
+transition:opacity .4s;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+overflow:hidden;
+z-index:1000;
+}
+#wrap_lightbox{
+overflow-x:hidden;
+background:#fff;
+border-radius:20px 0 0 20px;
+width:0;
+transition:width .4s;
+height:100vh;
+position:absolute;
+right:0;
+font-family:Jost;
+font-weight:400;
+text-align:left;
+}
+#lightbox{
+width:320px;
+padding:0 40px 52px;
+position:relative;
+color:#333;
+}
+#under_lightbox{
+width:100%;
+height:100vh;
+background:rgba(0,0,0,.5);
+cursor:pointer;
+}
+
+#close{
+cursor:pointer;
+position:absolute;
+top:0px;
+right:40px;
+width:40px;
+height:40px;
+}
+.close:before,.close:after{
+content:'';
+position:absolute;
+top:19px;
+left:-6px;
+width:130%;
+height:2px;
+background:#333;
+}
+.close:before{
+transform:rotate(45deg);
+}
+.close:after{
+transform:rotate(-45deg);
+}
+
+.headers{
+font-weight:500;
+margin:52px 0 20px 0;
+text-transform:uppercase;
+}
+
+[type=radio],[type=checkbox]{
+display:none;
+}
+input+label{
+cursor:pointer;
+margin:5px 20px 10px 0;
+display:inline-block;
+}
+[type=radio]+label{
+color:#888;
+}
+[type=radio]:checked+label{
+color:#F1574B;
+}
+[type=checkbox]+label{
+color:#3CB97C;
+}
+[type=checkbox]+label:hover{
+border:1px solid #3CB97C;
+}
+[type=checkbox]+label:before{
+content:'+ ';
+}
+[type=checkbox]:checked+label{
+border:1px solid #3CB97C;
+}
+[type=checkbox]:checked+label:before{
+content:'× ';
+}
+[type=checkbox]:checked+label:hover{
+opacity:1;
+border:1px solid transparent;
+}
+
+#Jost+label{
+font-family:Jost;
+}
+#Google_Sans+label{
+font-family:Google Sans;
+}
+#Roboto_Slab+label{
+font-family:Roboto Slab;
+}
+#Noto_Serif+label{
+font-family:Noto Serif;
+}
+
+
+
+[name=theme]+label{
+border-radius:50%;
+padding:15px;
+margin:10px 0;
+}
+[name=theme]:checked+label{
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z'/%3E%3C/svg%3E") 50% 50% no-repeat;
+background-size:60%;
+}
+
+#theme_1+label{
+background-color:#FFE19A;
+}
+body.theme_1{
+background:radial-gradient(circle at bottom left,#FFE19A,transparent);
+}
+.menu.theme_1,.menu.theme_1:before,.menu.theme_1:after{
+background:#84294B;
+}
+#wrap_wrap_number.theme_1,#wrap_winners.theme_1{
+color:#84294B;
+}
+#generate.theme_1{
+background:#D32C34;
+}
+#fullscreen svg path.theme_1{
+fill:#84294B;
+}
+
+#theme_2+label{
+background-color:#FFCFDD;
+}
+body.theme_2{
+background:radial-gradient(circle at top right,#FFCFDD,transparent);
+}
+.menu.theme_2,.menu.theme_2:before,.menu.theme_2:after{
+background:#765E9A;
+}
+#wrap_wrap_number.theme_2,#wrap_winners.theme_2{
+color:#765E9A;
+}
+#generate.theme_2{
+background:#EF86B7;
+}
+#fullscreen svg path.theme_2{
+fill:#765E9A;
+}
+
+#theme_3+label{
+background-color:#DCEDC8;
+}
+body.theme_3{
+background:radial-gradient(circle at top left,#DCEDC8,transparent);
+}
+.menu.theme_3,.menu.theme_3:before,.menu.theme_3:after{
+background:#2376BA;
+}
+#wrap_wrap_number.theme_3,#wrap_winners.theme_3{
+color:#2376BA;
+}
+#generate.theme_3{
+background:#74C95C;
+}
+#fullscreen svg path.theme_3{
+fill:#2376BA;
+}
+
+#theme_4+label{
+background-color:#FFC7A5;
+}
+body.theme_4{
+background:radial-gradient(circle at bottom right,#FFC7A5,transparent);
+}
+.menu.theme_4,.menu.theme_4:before,.menu.theme_4:after{
+background:#5e62a9;
+}
+#wrap_wrap_number.theme_4,#wrap_winners.theme_4{
+color:#5e62a9;
+}
+#generate.theme_4{
+background:#FF6B6B;
+}
+#fullscreen svg path.theme_4{
+fill:#5e62a9;
+}
+
+#theme_5+label{
+background-color:#B3E5FC;
+}
+body.theme_5{
+background:#fff;
+}
+.menu.theme_5,.menu.theme_5:before,.menu.theme_5:after{
+background:#333;
+}
+#wrap_wrap_number.theme_5,#wrap_winners.theme_5{
+color:#333;
+}
+#generate.theme_5{
+background:#54BEEE;
+}
+#fullscreen svg path.theme_5{
+fill:#333;
+}
+
+
+
+@media (hover:none) and (pointer:coarse){
+#wrap_lightbox{
+font-size:1.3em;
+}
+[name=theme]+label{
+padding:20px;
+}
+}
+</style>
+<div id="logo"></div>
+<div id="menu"><div class="menu"></div></div>
+<div id="lotto">
+	<div id="wrap_wrap_number">
+		<div id="wrap_number">
+			<div id="number"><span></span></div>
+		</div>
+	</div>
+	<div id="generate">Разыграть</div>
+	<ul></ul>
+</div>
+<div id="wrap_winners">
+	<div id="winners"></div>
+</div>
+<div id="fullscreen">
+	<svg viewBox="0 0 24 24">
+		<path d="M24 9h-2v-5h-7v-2h9v7zm-9 13v-2h7v-5h2v7h-9zm-15-7h2v5h7v2h-9v-7zm9-13v2h-7v5h-2v-7h9z"/>
+	</svg>
+</div>
+
+<div id="wrap_wrap_lightbox">
+	<div id="wrap_lightbox">
+		<div id="lightbox">
+			<div id="close"><div class="close"></div></div>
+
+			<div class="headers">Заголовок</div>
+			<input type="radio" name="header" id="prize_draw" checked><label for="prize_draw">Розыгрыш</label>
+			<input type="radio" name="header" id="lottery"><label for="lottery">Лотерея</label>
+			<input type="radio" name="header" id="merchant"><label for="merchant">Купеческий&nbsp;закон</label>
+			
+			<div class="headers">Шрифт</div>
+			<input type="radio" name="font" id="Google_Sans" checked><label for="Google_Sans">Google&nbsp;Sans</label>
+			<input type="radio" name="font" id="Jost"><label for="Jost">Jost</label>
+			<input type="radio" name="font" id="Roboto_Slab"><label for="Roboto_Slab">Roboto&nbsp;Slab</label>
+			<input type="radio" name="font" id="Noto_Serif"><label for="Noto_Serif">Noto&nbsp;Serif</label>
+
+			<div class="headers">Тема</div>
+			<input type="radio" name="theme" id="theme_1" checked><label for="theme_1"></label>
+			<input type="radio" name="theme" id="theme_2"><label for="theme_2"></label>
+			<input type="radio" name="theme" id="theme_3"><label for="theme_3"></label>
+			<input type="radio" name="theme" id="theme_4"><label for="theme_4"></label>
+			<input type="radio" name="theme" id="theme_5"><label for="theme_5"></label>
+		</div>
+	</div>
+	<div id="under_lightbox"><div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+$(document).ready(function(){
+	var randomNumber=function(min,max){
+		return Math.floor(Math.random()*(max-min+1)+min);
+	}
+	var click=0;
+	let random=[];
+	let total;
+	let prizes;
+	setTimeout(()=>{
+		total=prompt('Сколько будет участников?','30');
+		if(total!=null){
+			prizes=prompt('Сколько будет призов?','3');
+			if(prizes!=null){
+				$('#generate').addClass('open');
+			}
+		}else{
+			$('#generate').removeClass('open');
+		}
+	},400);
+	
+	$('#generate').click(function(){
+		if($('#generate').hasClass('open')&&click<total&&click<prizes){
+			click++;
+			do{
+				var num=randomNumber(1,total);
+			}
+			while(random.indexOf(num)>-1);
+			random.push(num);
+			var delay=1600;
+			$('#number').html($('#number').html()+'<br>Интрига...');
+			$('#wrap_number').animate({height:$('#number').height()},0);
+
+			$('#generate').removeClass('open');
+
+			$('#number').html($('#number').html()+'<br>'+num);
+			$('#wrap_number').delay(delay).animate({height:$('#number').height()},0,function(){
+				$('#number').html($('#number').html()+'<br>Поздравляем!');
+				$('#wrap_number').delay(delay).animate({height:$('#number').height()},0);
+
+				if(click<total&&click<prizes){
+					setTimeout(()=>$('#generate').addClass('open'),delay);
+				}
+
+				$('#winners').html($('#winners').html()+'<br>'+click+'-й приз: '+num).html($('#winners').html().replace(/^\<br\>/,''));
+				$('#wrap_winners').delay(delay).animate({height:$('#winners').height()},0);
+			});
+		}
+	});
+	$(document).keydown(function(e){
+		if(e.key=='Enter'&&$('#wrap_lightbox').width()==0){
+			$('#generate').trigger('click');
+		}
+	});
+
+//$('???').css('transition-duration').replace('s','')*1000=400
+	$('#menu').click(function(){
+		$('body').css('user-select','none');
+		$('#wrap_wrap_lightbox').css('display','block').animate({opacity:1},0);
+		$('#wrap_lightbox').delay(400).animate({width:$('#lightbox').innerWidth()},0);
+	});
+	$('#close').click(function(){
+		$('#wrap_lightbox').animate({width:0},0);
+		$('#wrap_wrap_lightbox').delay(400).animate({opacity:0},0,function(){
+			setTimeout(()=>{
+				$('#wrap_wrap_lightbox').css('display','none');
+				$('body').css('user-select','auto');
+			},400);
+		});
+	});
+	$(document).keydown(function(e){
+		if(e.key=='Escape'){
+			$('#close').trigger('click');
+		}
+	})
+	$('#under_lightbox').click(function(e){
+		$('#close').trigger('click');
+	});
+
+	mouseDrag=[];
+	touchDrag=[];
+	$('body').mousedown(function(e){
+		if(e.which==1){ // Чтобы только с левой кнопки двигалось
+			mouseDrag[0]=1;
+			mouseDrag[1]=e.pageX;
+		}
+	}).mouseup(function(e){
+		mouseDrag=[];
+	}).mousemove(function(e){
+		mouseDrag[2]=e.pageX;
+		if(mouseDrag[2]-mouseDrag[1]>150){
+			$('#close').trigger('click');
+			mouseDrag=[];
+		}
+		if(mouseDrag[2]-mouseDrag[1]<-150&&mouseDrag[1]>$(window).width()/1.5){
+			$('#menu').trigger('click');
+			mouseDrag=[];
+		}
+	}).on('touchstart',function(e){
+		touchDrag[0]=1;
+		touchDrag[1]=e.originalEvent.touches[0].pageX;
+	}).on('touchend',function(e){
+		touchDrag=[];
+	}).on('touchmove',function(e){
+		touchDrag[2]=e.originalEvent.touches[0].pageX;
+		if(touchDrag[2]-touchDrag[1]>150){
+			$('#close').trigger('click');
+			touchDrag=[];
+		}
+		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/1.5){
+			$('#menu').trigger('click');
+			touchDrag=[];
+		}
+	});
+
+	$('#fullscreen').click(function(){
+		var elem = $('html')[0];
+		if($('#fullscreen').hasClass('open')){
+			if(document.exitFullscreen){
+				document.exitFullscreen();
+			}else if(document.webkitExitFullscreen){
+				document.webkitExitFullscreen();
+			}else if(document.msExitFullscreen){
+				document.msExitFullscreen();
+			}else if(document.mozCancelFullScreen){
+				document.mozCancelFullScreen();
+			}
+			$('#fullscreen').removeClass('open');
+		}else{
+			if(elem.requestFullscreen){
+				elem.requestFullscreen();
+			}else if(elem.webkitRequestFullscreen){
+				elem.webkitRequestFullscreen();
+			}else if(elem.msRequestFullscreen){
+				elem.msRequestFullscreen();
+			}else if(elem.mozRequestFullScreen){
+				elem.mozRequestFullScreen();
+			}
+			$('#fullscreen').addClass('open');
+		}
+	});
+
+	if(localStorage['lotto_header']){
+		$('#'+localStorage['lotto_header']).prop('checked',true);
+	}
+	$('#number span,title').text($('[name=header]:checked+label').text()+'!');
+
+	$('[name=header]').click(function(){
+		localStorage['lotto_header']=$(this).attr('id');
+		$('#number span,title').text($('[name=header]:checked+label').text()+'!');
+	});
+
+
+	if(localStorage['lotto_font']){
+		$('#'+localStorage['lotto_font']).prop('checked',true);
+	}
+	$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
+
+	$('[name=font]').click(function(){
+		localStorage['lotto_font']=$(this).attr('id');
+		$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
+	});
+
+
+	if(localStorage['lotto_theme']){
+		$('#'+localStorage['lotto_theme']).prop('checked',true);
+	}
+	$('*').addClass($('[name=theme]:checked').attr('id'));
+
+	$('[name=theme]').click(function(){
+		localStorage['lotto_theme']=$(this).attr('id');
+		for(let i=0;i<=$('[name=theme]').length;i++){
+			$('*').removeClass('theme_'+i).addClass(localStorage['lotto_theme']);
+		}
+	});
+});
+</script>
