@@ -83,6 +83,23 @@ display:none;
 
 
 
+#fullscreen{
+position:absolute;
+bottom:5vh;
+right:40px;
+width:40px;
+height:40px;
+cursor:pointer;
+}
+#fullscreen svg{
+width:80%;
+height:auto;
+display:block;
+margin:auto;
+}
+
+
+
 #menu{
 cursor:pointer;
 position:absolute;
@@ -251,6 +268,9 @@ color:#84294B;
 #generate.theme_1{
 background:#D32C34;
 }
+#fullscreen svg path.theme_1{
+fill:#84294B;
+}
 
 #theme_2+label{
 background-color:#FFCFDD;
@@ -266,6 +286,9 @@ color:#765E9A;
 }
 #generate.theme_2{
 background:#EF86B7;
+}
+#fullscreen svg path.theme_2{
+fill:#765E9A;
 }
 
 #theme_3+label{
@@ -283,6 +306,9 @@ color:#2376BA;
 #generate.theme_3{
 background:#74C95C;
 }
+#fullscreen svg path.theme_3{
+fill:#2376BA;
+}
 
 #theme_4+label{
 background-color:#FFC7A5;
@@ -299,6 +325,9 @@ color:#5e62a9;
 #generate.theme_4{
 background:#FF6B6B;
 }
+#fullscreen svg path.theme_4{
+fill:#5e62a9;
+}
 
 #theme_5+label{
 background-color:#B3E5FC;
@@ -314,6 +343,9 @@ color:#333;
 }
 #generate.theme_5{
 background:#54BEEE;
+}
+#fullscreen svg path.theme_5{
+fill:#333;
 }
 
 
@@ -340,6 +372,11 @@ padding:20px;
 </div>
 <div id="wrap_winners">
 	<div id="winners"></div>
+</div>
+<div id="fullscreen">
+	<svg viewBox="0 0 24 24">
+		<path d="M24 9h-2v-5h-7v-2h9v7zm-9 13v-2h7v-5h2v7h-9zm-15-7h2v5h7v2h-9v-7zm9-13v2h-7v5h-2v-7h9z"/>
+	</svg>
 </div>
 
 <div id="wrap_wrap_lightbox">
@@ -464,7 +501,7 @@ $(document).ready(function(){
 			$('#close').trigger('click');
 			mouseDrag=[];
 		}
-		if(mouseDrag[2]-mouseDrag[1]<-150&&mouseDrag[1]>$(window).width()/2){
+		if(mouseDrag[2]-mouseDrag[1]<-150&&mouseDrag[1]>$(window).width()/1.5){
 			$('#menu').trigger('click');
 			mouseDrag=[];
 		}
@@ -479,9 +516,36 @@ $(document).ready(function(){
 			$('#close').trigger('click');
 			touchDrag=[];
 		}
-		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/2){
+		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/1.5){
 			$('#menu').trigger('click');
 			touchDrag=[];
+		}
+	});
+
+	$('#fullscreen').click(function(){
+		var elem = $('html')[0];
+		if($('#fullscreen').hasClass('open')){
+			if(document.exitFullscreen){
+				document.exitFullscreen();
+			}else if(document.webkitExitFullscreen){
+				document.webkitExitFullscreen();
+			}else if(document.msExitFullscreen){
+				document.msExitFullscreen();
+			}else if(document.mozCancelFullScreen){
+				document.mozCancelFullScreen();
+			}
+			$('#fullscreen').removeClass('open');
+		}else{
+			if(elem.requestFullscreen){
+				elem.requestFullscreen();
+			}else if(elem.webkitRequestFullscreen){
+				elem.webkitRequestFullscreen();
+			}else if(elem.msRequestFullscreen){
+				elem.msRequestFullscreen();
+			}else if(elem.mozRequestFullScreen){
+				elem.mozRequestFullScreen();
+			}
+			$('#fullscreen').addClass('open');
 		}
 	});
 
