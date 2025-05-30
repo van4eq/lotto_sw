@@ -13,9 +13,6 @@ body{
 font-family:Google Sans;
 font-weight:500;
 text-align:center;
-display:flex;
-width:100vw;
-height:100vh;
 margin:0;
 -webkit-tap-highlight-color:transparent;
 }
@@ -31,14 +28,15 @@ height:200px;
 }
 
 #lotto{
-margin:auto;
+position:absolute;
+bottom:45vh;
 width:100%;
 font-size:1.5em;
 }
 #wrap_wrap_number{
 user-select:none;
 text-align:center;
-margin:-40px auto 40px;
+margin:0 auto 40px;
 font-size:1.8em;
 position:relative;
 height:1.3em;
@@ -71,7 +69,8 @@ cursor:pointer;
 #wrap_winners{
 font-size:1.5em;
 position:absolute;
-top:65vh;
+top:55vh;
+margin-top:40px;
 overflow:hidden;
 text-align:center;
 width:100%;
@@ -373,32 +372,10 @@ font-size:1.15em;
 padding:18px;
 }
 
-:fullscreen #replay{
-right:100px;
-}
-:-webkit-full-screen #replay{
-right:100px;
-}
-:-moz-full-screen #replay{
-right:100px;
-}
-:-ms-fullscreen #replay{
-right:100px;
-}
-
-:fullscreen #lightbox{
-width:250px;
-}
-:-webkit-full-screen #lightbox{
-width:250px;
-}
-:-moz-full-screen #lightbox{
-width:250px;
-}
-:-ms-fullscreen #lightbox{
-width:250px;
-}
-}
+:fullscreen body { transform: scale(0.85); transform-origin: top left; backface-visibility: hidden; will-change: transform; }
+:-webkit-full-screen body { transform: scale(0.85); transform-origin: top left; backface-visibility: hidden; will-change: transform; }
+:-moz-full-screen body { transform: scale(0.85); transform-origin: top left; backface-visibility: hidden; will-change: transform; }
+:-ms-fullscreen body { transform: scale(0.85); transform-origin: top left; backface-visibility: hidden; will-change: transform; }
 </style>
 <div id="logo"></div>
 
