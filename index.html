@@ -20,12 +20,12 @@ margin:0;
 
 #logo{
 position:absolute;
-top:30px;
-left:40px;
+top:1.875em;
+left:2.5em;
 background:url(https://ru.siberianhealth.com/static/rebranding/img/5a5c906883b9701f898e2281/1160434/upload-046af4b0-b821-11e8-89d0-798fa202fe62.png) 0 0 no-repeat;
 background-size:100%;
-width:200px;
-height:200px;
+width:12.5em;
+height:12.5em;
 }
 
 #lotto{
@@ -37,7 +37,7 @@ font-size:1.5em;
 #wrap_wrap_number{
 user-select:none;
 text-align:center;
-margin:0 auto 40px;
+margin:0 auto 2.5em;
 font-size:1.8em;
 position:relative;
 height:1.3em;
@@ -53,9 +53,9 @@ transition:height .4s;
 }
 #generate{
 user-select:none;
-padding:20px 30px;
-border-radius:40px;
-width:150px;
+padding:1.25em 1.875em;
+border-radius:2.5em;
+width:9.375em;
 margin:auto;
 color:rgba(255,255,255,.4);
 text-transform:uppercase;
@@ -71,7 +71,7 @@ cursor:pointer;
 font-size:1.5em;
 position:absolute;
 top:55vh;
-margin-top:40px;
+margin-top:2.5em;
 overflow:hidden;
 text-align:center;
 width:100%;
@@ -84,15 +84,15 @@ line-height:1.3em;
 
 #replay{
 position:absolute;
-top:52px;
-right:120px;
-width:40px;
-height:40px;
+top:3.25em;
+right:7.5em;
+width:2.5em;
+height:2.5em;
 cursor:pointer;
 overflow:hidden;
 }
 #replay svg{
-width:40px;
+width:2.5em;
 height:auto;
 display:block;
 margin-top:-1px;
@@ -101,10 +101,10 @@ margin-top:-1px;
 #menu{
 cursor:pointer;
 position:absolute;
-top:52px;
-right:40px;
-width:40px;
-height:40px;
+top:3.25em;
+right:2.5em;
+width:2.5em;
+height:2.5em;
 }
 .menu,.menu:before,.menu:after{
 content:'';
@@ -126,10 +126,10 @@ bottom:10px;
 
 #fullscreen{
 position:absolute;
-bottom:52px;
-right:40px;
-width:40px;
-height:40px;
+bottom:3.25em;
+right:2.5em;
+width:2.5em;
+height:2.5em;
 cursor:pointer;
 }
 #fullscreen svg{
@@ -152,7 +152,7 @@ z-index:1000;
 #wrap_lightbox{
 overflow-x:hidden;
 background:#fff;
-border-radius:20px 0 0 20px;
+border-radius:1.25em 0 0 1.25em;
 width:0;
 transition:width .4s;
 height:100vh;
@@ -163,8 +163,8 @@ font-weight:400;
 text-align:left;
 }
 #lightbox{
-width:320px;
-padding:0 40px 52px;
+width:20em;
+padding:0 2.5em 3.25em;
 position:relative;
 color:#333;
 }
@@ -179,9 +179,9 @@ cursor:pointer;
 cursor:pointer;
 position:absolute;
 top:0px;
-right:40px;
-width:40px;
-height:40px;
+right:2.5em;
+width:2.5em;
+height:2.5em;
 }
 .close:before,.close:after{
 content:'';
@@ -201,7 +201,7 @@ transform:rotate(-45deg);
 
 .headers{
 font-weight:500;
-margin:52px 0 20px 0;
+margin:3.25em 0 1.25em 0;
 text-transform:uppercase;
 }
 
@@ -210,7 +210,7 @@ display:none;
 }
 input+label{
 cursor:pointer;
-margin:5px 20px 10px 0;
+margin:5px 1.25em 10px 0;
 display:inline-block;
 }
 [type=radio]+label{
@@ -256,7 +256,7 @@ font-family:Noto Serif;
 
 [name=theme]+label{
 border-radius:50%;
-padding:15px;
+padding:1em;
 margin:10px 0;
 }
 [name=theme]:checked+label{
@@ -362,50 +362,17 @@ fill:#333;
 
 
 @media (hover:none) and (pointer:coarse){
-#wrap_lightbox{
-font-size:1.15em;
+:fullscreen body{
+font-size:13.6px;
 }
-[name=theme]+label{
-padding:18px;
+:-webkit-full-screen body{
+font-size:13.6px;
 }
-
-:fullscreen #lotto,#wrap_winners{
-font-size:1.275em;
+:-moz-full-screen body{
+font-size:13.6px;
 }
-:-webkit-full-screen #lotto,#wrap_winners{
-font-size:1.275em;
-}
-:-moz-full-screen #lotto,#wrap_winners{
-font-size:1.275em;
-}
-:-ms-fullscreen #lotto,#wrap_winners{
-font-size:1.275em;
-}
-
-:fullscreen #replay{
-right:100px;
-}
-:-webkit-full-screen #replay{
-right:100px;
-}
-:-moz-full-screen #replay{
-right:100px;
-}
-:-ms-fullscreen #replay{
-right:100px;
-}
-
-:fullscreen #lightbox{
-width:250px;
-}
-:-webkit-full-screen #lightbox{
-width:250px;
-}
-:-moz-full-screen #lightbox{
-width:250px;
-}
-:-ms-fullscreen #lightbox{
-width:250px;
+:-ms-fullscreen body{
+font-size:13.6px;
 }
 }
 </style>
