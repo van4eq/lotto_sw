@@ -517,7 +517,7 @@ $(document).ready(function(){
 			$('#close').trigger('click');
 			mouseDrag=[];
 		}
-		if(mouseDrag[2]-mouseDrag[1]<-150&&mouseDrag[1]>$(window).width()/1.5){
+		if(mouseDrag[2]-mouseDrag[1]<-150&&mouseDrag[1]>$(window).width()/1.33){
 			$('#menu').trigger('click');
 			mouseDrag=[];
 		}
@@ -532,7 +532,7 @@ $(document).ready(function(){
 			$('#close').trigger('click');
 			touchDrag=[];
 		}
-		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/1.5){
+		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/1.33){
 			$('#menu').trigger('click');
 			touchDrag=[];
 		}
