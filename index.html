@@ -431,7 +431,8 @@ width:14em;
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script>
+<script>if (document.fullscreenEnabled || document.webkitFullscreenEnabled ||
+    document.mozFullScreenEnabled || document.msFullscreenEnabled) {alert('да')}
 $(document).ready(function(){
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
@@ -443,6 +444,7 @@ $(document).ready(function(){
 	function lotto(){
 		click=0;
 		random=[];
+		$('#fullscreen').removeClass('open');
 		setTimeout(()=>{
 			$('#winners').html('');
 			total=prompt('Сколько будет участников?','30');
