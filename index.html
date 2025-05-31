@@ -124,23 +124,6 @@ top:10px;
 bottom:10px;
 }
 
-#fullscreen{
-position:absolute;
-bottom:3.25em;
-right:2.5em;
-width:2.5em;
-height:2.5em;
-cursor:pointer;
-display:none;
-}
-#fullscreen.open{
-display:block;
-}
-#fullscreen svg{
-height:auto;
-display:block;
-}
-
 #wrap_wrap_lightbox{
 display:none;
 opacity:0;
@@ -283,7 +266,7 @@ color:#84294B;
 #generate.theme_1{
 background:#D32C34;
 }
-#replay svg path.theme_1,#fullscreen svg path.theme_1{
+#replay svg path.theme_1{
 fill:#84294B;
 }
 
@@ -302,7 +285,7 @@ color:#765E9A;
 #generate.theme_2{
 background:#EF86B7;
 }
-#replay svg path.theme_2,#fullscreen svg path.theme_2{
+#replay svg path.theme_2{
 fill:#765E9A;
 }
 
@@ -321,7 +304,7 @@ color:#2376BA;
 #generate.theme_3{
 background:#74C95C;
 }
-#replay svg path.theme_3,#fullscreen svg path.theme_3{
+#replay svg path.theme_3{
 fill:#2376BA;
 }
 
@@ -340,7 +323,7 @@ color:#5e62a9;
 #generate.theme_4{
 background:#FF6B6B;
 }
-#replay svg path.theme_4,#fullscreen svg path.theme_4{
+#replay svg path.theme_4{
 fill:#5e62a9;
 }
 
@@ -359,7 +342,7 @@ color:#333;
 #generate.theme_5{
 background:#54BEEE;
 }
-#replay svg path.theme_5,#fullscreen svg path.theme_5{
+#replay svg path.theme_5{
 fill:#333;
 }
 
@@ -397,12 +380,6 @@ width:14em;
 	<div id="winners"></div>
 </div>
 
-<div id="fullscreen">
-	<svg viewBox="0 0 24 24">
-		<path d="M24 9h-2v-5h-7v-2h9v7zm-9 13v-2h7v-5h2v7h-9zm-15-7h2v5h7v2h-9v-7zm9-13v2h-7v5h-2v-7h9z"/>
-	</svg>
-</div>
-
 <div id="wrap_wrap_lightbox">
 	<div id="wrap_lightbox">
 		<div id="lightbox">
@@ -431,9 +408,22 @@ width:14em;
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script>if (document.fullscreenEnabled || document.webkitFullscreenEnabled ||
-    document.mozFullScreenEnabled || document.msFullscreenEnabled) {alert('да')}
+<script>
 $(document).ready(function(){
+	function fs(){
+		setTimeout(()=>{
+			var fullscreen=$('html')[0];
+			if(fullscreen.requestFullscreen){
+				fullscreen.requestFullscreen();
+			}else if(fullscreen.webkitRequestFullscreen){
+				fullscreen.webkitRequestFullscreen();
+			}else if(fullscreen.msRequestFullscreen){
+				fullscreen.msRequestFullscreen();
+			}else if(fullscreen.mozRequestFullScreen){
+				fullscreen.mozRequestFullScreen();
+			}
+		},100);
+	}
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
 	}
@@ -444,7 +434,6 @@ $(document).ready(function(){
 	function lotto(){
 		click=0;
 		random=[];
-		$('#fullscreen').removeClass('open');
 		setTimeout(()=>{
 			$('#winners').html('');
 			total=prompt('Сколько будет участников?','30');
@@ -453,24 +442,14 @@ $(document).ready(function(){
 				if(prizes!=null){
 					$('#generate').addClass('open');
 
-					var fullscr=$('html')[0];
-					if(fullscr.requestFullscreen){
-						fullscr.requestFullscreen();
-					}else if(fullscr.webkitRequestFullscreen){
-						fullscr.webkitRequestFullscreen();
-					}else if(fullscr.msRequestFullscreen){
-						fullscr.msRequestFullscreen();
-					}else if(fullscr.mozRequestFullScreen){
-						fullscr.mozRequestFullScreen();
-					}
-					$('#fullscreen').addClass('open');
+					fs();
 				}
 			}else{
 				$('#generate').removeClass('open');
 			}
 		},400);
 	}
-	
+
 	$('#replay').click(function(){
 		var replay=confirm('Начать новый розыгрыш?');
 		if(replay){
@@ -483,9 +462,11 @@ $(document).ready(function(){
 			$('#wrap_winners').animate({height:0},0);
 
 			lotto();
+		}else{
+			fs();
 		}
 	});
-	
+
 	$('#generate').click(function(){
 		if($('#generate').hasClass('open')&&click<total&&click<prizes){
 			click++;
@@ -577,22 +558,6 @@ $(document).ready(function(){
 		if(touchDrag[2]-touchDrag[1]<-150&&touchDrag[1]>$(window).width()/1.33){
 			$('#menu').trigger('click');
 			touchDrag=[];
-		}
-	});
-
-	$('#fullscreen').click(function(){
-		var fullscr=$('html')[0];
-		if($('#fullscreen').hasClass('open')){ //закрываем полноэкранный режим
-			if(document.exitFullscreen){
-				document.exitFullscreen();
-			}else if(document.webkitExitFullscreen){
-				document.webkitExitFullscreen();
-			}else if(document.msExitFullscreen){
-				document.msExitFullscreen();
-			}else if(document.mozCancelFullScreen){
-				document.mozCancelFullScreen();
-			}
-			$('#fullscreen').removeClass('open');
 		}
 	});
 
