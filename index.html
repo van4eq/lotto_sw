@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=.85,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <link rel="icon" href="https://ru.siberianhealth.com/shopen/public/icon.svg" type="image/svg+xml">
 <title>Розыгрыш!</title>
 <style>
@@ -131,6 +131,10 @@ right:2.5em;
 width:2.5em;
 height:2.5em;
 cursor:pointer;
+display:none;
+}
+#fullscreen.open{
+display:block;
 }
 #fullscreen svg{
 height:auto;
@@ -362,22 +366,13 @@ fill:#333;
 
 
 @media (hover:none) and (pointer:coarse){
-#lightbox{
-font-size:1.3em;
-width:15em;
+body{
+font-size:.85em;
 }
 
-:fullscreen body{
-font-size:.85em;
-}
-:-webkit-full-screen body{
-font-size:.85em;
-}
-:-moz-full-screen body{
-font-size:.85em;
-}
-:-ms-fullscreen body{
-font-size:.85em;
+#lightbox{
+font-size:1.3em;
+width:14em;
 }
 }
 </style>
@@ -455,6 +450,18 @@ $(document).ready(function(){
 				prizes=prompt('Сколько будет призов?','3');
 				if(prizes!=null){
 					$('#generate').addClass('open');
+
+					var fullscr=$('html')[0];
+					if(fullscr.requestFullscreen){
+						fullscr.requestFullscreen();
+					}else if(fullscr.webkitRequestFullscreen){
+						fullscr.webkitRequestFullscreen();
+					}else if(fullscr.msRequestFullscreen){
+						fullscr.msRequestFullscreen();
+					}else if(fullscr.mozRequestFullScreen){
+						fullscr.mozRequestFullScreen();
+					}
+					$('#fullscreen').addClass('open');
 				}
 			}else{
 				$('#generate').removeClass('open');
@@ -584,17 +591,6 @@ $(document).ready(function(){
 				document.mozCancelFullScreen();
 			}
 			$('#fullscreen').removeClass('open');
-		}else{ //открываем полноэкранный режим
-			if(fullscr.requestFullscreen){
-				fullscr.requestFullscreen();
-			}else if(fullscr.webkitRequestFullscreen){
-				fullscr.webkitRequestFullscreen();
-			}else if(fullscr.msRequestFullscreen){
-				fullscr.msRequestFullscreen();
-			}else if(fullscr.mozRequestFullScreen){
-				fullscr.mozRequestFullScreen();
-			}
-			$('#fullscreen').addClass('open');
 		}
 	});
 
