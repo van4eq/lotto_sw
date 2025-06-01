@@ -410,6 +410,10 @@ width:14em;
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $(document).ready(function(){
+	if('orientation' in screen&&typeof screen.orientation.lock=='function'){
+		screen.orientation.lock('portrait');
+	}
+
 	function fs(){
 		setTimeout(()=>{
 			var fullscreen=$('html')[0];
@@ -441,8 +445,6 @@ $(document).ready(function(){
 				prizes=prompt('Сколько будет призов?','3');
 				if(prizes!=null){
 					$('#generate').addClass('open');
-
-					fs();
 				}
 			}else{
 				$('#generate').removeClass('open');
@@ -462,9 +464,8 @@ $(document).ready(function(){
 			$('#wrap_winners').animate({height:0},0);
 
 			lotto();
-		}else{
-			fs();
 		}
+		fs();
 	});
 
 	$('#generate').click(function(){
