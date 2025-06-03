@@ -507,7 +507,7 @@ cursor:pointer;
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-$(document).ready(function(){$(window).resize(function(){alert($(this).innerHeight)})
+$(document).ready(function(){$(window).resize(function(){alert($(this).innerHeight()+', '+$(this).height())})
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
 	}
