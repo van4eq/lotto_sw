@@ -37,7 +37,7 @@ font-size:1.5em;
 #wrap_wrap_number{
 user-select:none;
 text-align:center;
-margin:0 auto 40px;
+margin-bottom:40px;
 font-size:1.8em;
 position:relative;
 height:1.3em;
@@ -68,7 +68,7 @@ cursor:pointer;
 }
 
 #wrap_winners{
-font-size:1.5em;
+font-size:1.6em;
 position:absolute;
 top:55vh;
 margin-top:40px;
@@ -92,7 +92,7 @@ cursor:pointer;
 overflow:hidden;
 }
 #replay svg{
-width:2.5em;
+width:100%;
 height:auto;
 display:block;
 margin-top:-1px;
@@ -124,6 +124,8 @@ top:10px;
 bottom:10px;
 }
 
+
+
 #wrap_wrap_lightbox{
 display:none;
 opacity:0;
@@ -151,7 +153,7 @@ text-align:left;
 }
 #lightbox{
 width:20em;
-padding:0 40px 52px;
+padding:0 40px 50px;
 position:relative;
 color:#333;
 }
@@ -188,7 +190,7 @@ transform:rotate(-45deg);
 
 .headers{
 font-weight:500;
-margin:52px 0 1.25em 0;
+margin:50px 0 1.25em 0;
 text-transform:uppercase;
 }
 
@@ -237,6 +239,37 @@ font-family:Roboto Slab;
 }
 #Noto_Serif+label{
 font-family:Noto Serif;
+}
+
+
+[type=number]{
+color:inherit;
+font-size:inherit;
+font-weight:500;
+font-family:Jost;
+width:100%;
+padding:5px 0 10px;
+border:none;
+border-bottom:2px solid #888;
+outline:none;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+}
+[type=nubmer]:focus{
+border-bottom:2px solid transparent;
+}
+
+
+#start{
+display:inline-block;
+padding:15px 25px;
+border-radius:30px;
+color:#fff;
+text-transform:uppercase;
+letter-spacing:1px;
+background:#F1574B;
+cursor:pointer;
 }
 
 
@@ -385,23 +418,34 @@ width:14em;
 		<div id="lightbox">
 			<div id="close"><div class="close"></div></div>
 
-			<div class="headers">Заголовок</div>
-			<input type="radio" name="header" id="prize_draw" checked><label for="prize_draw">Розыгрыш</label>
-			<input type="radio" name="header" id="lottery"><label for="lottery">Лотерея</label>
-			<input type="radio" name="header" id="merchant"><label for="merchant">Купеческий&nbsp;закон</label>
-			
-			<div class="headers">Шрифт</div>
-			<input type="radio" name="font" id="Google_Sans" checked><label for="Google_Sans">Google&nbsp;Sans</label>
-			<input type="radio" name="font" id="Jost"><label for="Jost">Jost</label>
-			<input type="radio" name="font" id="Roboto_Slab"><label for="Roboto_Slab">Roboto&nbsp;Slab</label>
-			<input type="radio" name="font" id="Noto_Serif"><label for="Noto_Serif">Noto&nbsp;Serif</label>
+			<div id="menu_settings">
+				<div class="headers">Заголовок</div>
+				<input type="radio" name="header" id="prize_draw" checked><label for="prize_draw">Розыгрыш</label>
+				<input type="radio" name="header" id="lottery"><label for="lottery">Лотерея</label>
+				<input type="radio" name="header" id="merchant"><label for="merchant">Купеческий&nbsp;закон</label>
+				
+				<div class="headers">Шрифт</div>
+				<input type="radio" name="font" id="Google_Sans" checked><label for="Google_Sans">Google&nbsp;Sans</label>
+				<input type="radio" name="font" id="Jost"><label for="Jost">Jost</label>
+				<input type="radio" name="font" id="Roboto_Slab"><label for="Roboto_Slab">Roboto&nbsp;Slab</label>
+				<input type="radio" name="font" id="Noto_Serif"><label for="Noto_Serif">Noto&nbsp;Serif</label>
 
-			<div class="headers">Тема</div>
-			<input type="radio" name="theme" id="theme_1" checked><label for="theme_1"></label>
-			<input type="radio" name="theme" id="theme_2"><label for="theme_2"></label>
-			<input type="radio" name="theme" id="theme_3"><label for="theme_3"></label>
-			<input type="radio" name="theme" id="theme_4"><label for="theme_4"></label>
-			<input type="radio" name="theme" id="theme_5"><label for="theme_5"></label>
+				<div class="headers">Тема</div>
+				<input type="radio" name="theme" id="theme_1" checked><label for="theme_1"></label>
+				<input type="radio" name="theme" id="theme_2"><label for="theme_2"></label>
+				<input type="radio" name="theme" id="theme_3"><label for="theme_3"></label>
+				<input type="radio" name="theme" id="theme_4"><label for="theme_4"></label>
+				<input type="radio" name="theme" id="theme_5"><label for="theme_5"></label>
+			</div>
+			<div id="menu_start" style="display:none;">
+				<div class="headers">Сколько участников?</div>
+				<input type="number" id="members" value="30">
+
+				<div class="headers">Сколько призов?</div>
+				<input type="number" id="prizes" value="3">
+
+				<div class="headers" id="start">Старт!</div>
+			</div>
 		</div>
 	</div>
 	<div id="under_lightbox"><div>
@@ -410,69 +454,76 @@ width:14em;
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $(document).ready(function(){
-	if('orientation' in screen&&typeof screen.orientation.lock=='function'){
-		screen.orientation.lock('portrait');
-	}
-
-	function fs(){
-		setTimeout(()=>{
-			var fullscreen=$('html')[0];
-			if(fullscreen.requestFullscreen){
-				fullscreen.requestFullscreen();
-			}else if(fullscreen.webkitRequestFullscreen){
-				fullscreen.webkitRequestFullscreen();
-			}else if(fullscreen.msRequestFullscreen){
-				fullscreen.msRequestFullscreen();
-			}else if(fullscreen.mozRequestFullScreen){
-				fullscreen.mozRequestFullScreen();
-			}
-		},400);
-	}
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
 	}
 	let click;
 	let random;
-	let total;
+	let members;
 	let prizes;
-	function lotto(){
-		click=0;
-		random=[];
-		setTimeout(()=>{
-			$('#winners').html('');
-			total=prompt('Сколько будет участников?','30');
-			if(total!=null){
-				prizes=prompt('Сколько будет призов?','3');
-				if(prizes!=null){
-					$('#generate').addClass('open');
-				}
-			}else{
-				$('#generate').removeClass('open');
-			}
-		},400);
-	}
+
+	$('[type=number]').on('input',function(){
+		if(this.value.match(/[^\d]/g)){
+			this.value=this.value.replace(/[^\d]/g,'');
+		}
+	})
+
+//	$('#play').click(function(){
+//		var fullscreen=$('html')[0];
+//		if(fullscreen.requestFullscreen){
+//			fullscreen.requestFullscreen();
+//		}else if(fullscreen.webkitRequestFullscreen){
+//			fullscreen.webkitRequestFullscreen();
+//		}else if(fullscreen.msRequestFullscreen){
+//			fullscreen.msRequestFullscreen();
+//		}else if(fullscreen.mozRequestFullScreen){
+//			fullscreen.mozRequestFullScreen();
+//		}
+//	});
+
+//	$(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange',function(e){
+//		if(!$(document).fullscreenElement&&!$('html').is(':fullscreen')){
+//			
+//		}
+//	});
 
 	$('#replay').click(function(){
-		var replay=confirm('Начать новый розыгрыш?');
-		if(replay){
-			if(click>0){
-				$('title').text($('[name=header]:checked+label').text()+'!');
-				$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
-				$('#wrap_number').animate({height:$('#number').height()},0);
-			}
-
-			$('#wrap_winners').animate({height:0},0);
-
-			lotto();
+		if(click==0){
+			$('title').text($('[name=header]:checked+label').text()+'!');
+			$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
+			$('#wrap_number').animate({height:$('#number').height()},0);
 		}
-		fs();
+
+		$('#wrap_winners').animate({height:0},0,function(){
+			setTimeout(()=>{
+				$('#winners').html('');
+			},400);
+		});
+
+		
+		$('#menu').trigger('click');
+		$('#menu_settings').hide();
+		$('#menu_start').show();
+		$('#start').click(function(){
+			click=0;
+			random=[];
+			members=Number($('#members').val());
+			prizes=Number($('#prizes').val());
+			if(members>=prizes&&members>0&&prizes>0){
+				$('#generate').addClass('open');
+				$('#close').trigger('click');
+			}
+		});
+		setTimeout(()=>{
+			$('#members').focus().val($('#members').val()).select();
+		},800);
 	});
 
 	$('#generate').click(function(){
-		if($('#generate').hasClass('open')&&click<total&&click<prizes){
+		if($('#generate').hasClass('open')&&click<members&&click<prizes){
 			click++;
 			do{
-				var num=randomNumber(1,total);
+				var num=randomNumber(1,members);
 			}
 			while(random.indexOf(num)>-1);
 			random.push(num);
@@ -487,7 +538,7 @@ $(document).ready(function(){
 				$('#number').html($('#number').html()+'<br>Поздравляем!');
 				$('#wrap_number').delay(delay).animate({height:$('#number').height()},0);
 
-				if(click<total&&click<prizes){
+				if(click<members&&click<prizes){
 					setTimeout(()=>$('#generate').addClass('open'),delay);
 				}
 
@@ -502,9 +553,19 @@ $(document).ready(function(){
 		}
 	});
 
+	$('[type=number]').focus(function(){
+		setTimeout(()=>{
+			$(this).val($(this).val()).select();
+		},100);
+	});
+
 //$('???').css('transition-duration').replace('s','')*1000=400
 	$('#menu').click(function(){
 		$('body').css('user-select','none');
+		if($('#menu_start').is(':hidden')){
+			$('#menu_settings').show();
+			$('#menu_start').hide();
+		}
 		$('#wrap_wrap_lightbox').css('display','block').animate({opacity:1},0);
 		$('#wrap_lightbox').delay(400).animate({width:$('#lightbox').innerWidth()},0);
 	});
@@ -514,6 +575,8 @@ $(document).ready(function(){
 			setTimeout(()=>{
 				$('#wrap_wrap_lightbox').css('display','none');
 				$('body').css('user-select','auto');
+				$('#menu_settings').hide();
+				$('#menu_start').hide();
 			},400);
 		});
 	});
