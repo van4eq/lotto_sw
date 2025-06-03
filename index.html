@@ -242,7 +242,7 @@ font-family:Noto Serif;
 }
 
 
-[type=number]{
+[type=text]{
 color:inherit;
 font-size:inherit;
 font-weight:500;
@@ -256,7 +256,7 @@ appearance:none;
 -webkit-appearance:none;
 -moz-appearance:none;
 }
-[type=nubmer]:focus{
+[type=text]:focus{
 border-bottom:2px solid transparent;
 }
 
@@ -439,10 +439,10 @@ width:14em;
 			</div>
 			<div id="menu_start" style="display:none;">
 				<div class="headers">Сколько участников?</div>
-				<input type="number" id="members" value="30">
+				<input type="text" id="members" value="30" inputmode="numeric">
 
 				<div class="headers">Сколько призов?</div>
-				<input type="number" id="prizes" value="3">
+				<input type="text" id="prizes" value="3" inputmode="numeric">
 
 				<div class="headers" id="start">Старт!</div>
 			</div>
@@ -462,7 +462,7 @@ $(document).ready(function(){
 	let members;
 	let prizes;
 
-	$('[type=number]').on('input',function(){
+	$('[type=text]').on('input',function(){
 		if(this.value.match(/[^\d]/g)){
 			this.value=this.value.replace(/[^\d]/g,'');
 		}
@@ -553,7 +553,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$('[type=number]').focus(function(){
+	$('[type=text]').focus(function(){
 		setTimeout(()=>{
 			$(this).val($(this).val()).select();
 		},100);
