@@ -696,14 +696,14 @@ $(document).ready(function(){
 	});
 
 	// Выбор заголовков и их запись в Cookies
-	if(localStorage['lotto_header']){
-		$('#'+localStorage['lotto_header']).prop('checked',true);
+	if(localStorage['lotto_sw_header']){
+		$('#'+localStorage['lotto_sw_header']).prop('checked',true);
 	}
 	$('#number,title').text($('[name=header]:checked+label').text()+'!');
 
 	$('[name=header]').click(function(){
-		if(localStorage['lotto_header']!=$(this).attr('id')){
-			localStorage['lotto_header']=$(this).attr('id');
+		if(localStorage['lotto_sw_header']!=$(this).attr('id')){
+			localStorage['lotto_sw_header']=$(this).attr('id');
 			if(click==0||click==prizes){
 				$('title').text($('[name=header]:checked+label').text()+'!');
 				$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
@@ -721,26 +721,26 @@ $(document).ready(function(){
 	});
 
 	// Выбор шрифтов и их запись в Cookies
-	if(localStorage['lotto_font']){
-		$('#'+localStorage['lotto_font']).prop('checked',true);
+	if(localStorage['lotto_sw_font']){
+		$('#'+localStorage['lotto_sw_font']).prop('checked',true);
 	}
 	$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
 
 	$('[name=font]').click(function(){
-		localStorage['lotto_font']=$(this).attr('id');
+		localStorage['lotto_sw_font']=$(this).attr('id');
 		$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
 	});
 
 	// Выбор тем и их запись в Cookies
-	if(localStorage['lotto_theme']){
-		$('#'+localStorage['lotto_theme']).prop('checked',true);
+	if(localStorage['lotto_sw_theme']){
+		$('#'+localStorage['lotto_sw_theme']).prop('checked',true);
 	}
 	$('*').addClass($('[name=theme]:checked').attr('id'));
 
 	$('[name=theme]').click(function(){
-		localStorage['lotto_theme']=$(this).attr('id');
+		localStorage['lotto_sw_theme']=$(this).attr('id');
 		for(let i=0;i<=$('[name=theme]').length;i++){
-			$('*').removeClass('theme_'+i).addClass(localStorage['lotto_theme']);
+			$('*').removeClass('theme_'+i).addClass(localStorage['lotto_sw_theme']);
 		}
 	});
 });
