@@ -9,6 +9,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600&display=swap');
+
 body{
 font-family:Google Sans;
 font-weight:500;
@@ -28,12 +29,57 @@ width:12.5em;
 height:12.5em;
 }
 
+#replay{
+position:absolute;
+top:3.25em;
+right:7.5em;
+width:2.5em;
+height:2.5em;
+cursor:pointer;
+overflow:hidden;
+}
+#replay svg{
+width:100%;
+height:auto;
+display:block;
+margin-top:-1px;
+}
+
+#menu{
+cursor:pointer;
+position:absolute;
+top:3.25em;
+right:2.5em;
+width:2.5em;
+height:2.5em;
+}
+.menu,.menu:before,.menu:after{
+content:'';
+position:absolute;
+width:100%;
+left:0;
+height:3.25px;
+}
+.menu{
+top:50%;
+margin-top:-1.125px;
+}
+.menu:before{
+top:10px;
+}
+.menu:after{
+bottom:10px;
+}
+
+
+
 #lotto{
 position:absolute;
 bottom:45vh;
 width:100%;
 font-size:1.5em;
 }
+
 #wrap_wrap_number{
 user-select:none;
 text-align:center;
@@ -51,6 +97,7 @@ height:1.3em;
 line-height:1.3em;
 transition:height .4s;
 }
+
 #generate{
 user-select:none;
 padding:20px 30px;
@@ -102,50 +149,6 @@ display:none;
 
 
 
-#replay{
-position:absolute;
-top:3.25em;
-right:7.5em;
-width:2.5em;
-height:2.5em;
-cursor:pointer;
-overflow:hidden;
-}
-#replay svg{
-width:100%;
-height:auto;
-display:block;
-margin-top:-1px;
-}
-
-#menu{
-cursor:pointer;
-position:absolute;
-top:3.25em;
-right:2.5em;
-width:2.5em;
-height:2.5em;
-}
-.menu,.menu:before,.menu:after{
-content:'';
-position:absolute;
-width:100%;
-left:0;
-height:3.25px;
-}
-.menu{
-top:50%;
-margin-top:-1.125px;
-}
-.menu:before{
-top:10px;
-}
-.menu:after{
-bottom:10px;
-}
-
-
-
 #wrap_wrap_lightbox{
 display:none;
 opacity:0;
@@ -177,7 +180,7 @@ padding:0 40px 50px;
 position:relative;
 color:#333;
 }
-#under_lightbox{
+#lightbox_shadow{
 width:100%;
 height:100vh;
 background:rgba(0,0,0,.5);
@@ -214,40 +217,21 @@ margin:50px 0 1.25em 0;
 text-transform:uppercase;
 }
 
-[type=radio],[type=checkbox]{
+/* Опции настроек */
+[type=radio]{
 display:none;
 }
-input+label{
+[type=radio]+label{
 cursor:pointer;
 margin:5px 1.25em 10px 0;
 display:inline-block;
-}
-[type=radio]+label{
 color:#888;
 }
 [type=radio]:checked+label{
 color:#F1574B;
 }
-[type=checkbox]+label{
-color:#3CB97C;
-}
-[type=checkbox]+label:hover{
-border:1px solid #3CB97C;
-}
-[type=checkbox]+label:before{
-content:'+ ';
-}
-[type=checkbox]:checked+label{
-border:1px solid #3CB97C;
-}
-[type=checkbox]:checked+label:before{
-content:'× ';
-}
-[type=checkbox]:checked+label:hover{
-opacity:1;
-border:1px solid transparent;
-}
 
+/* Шрифты */
 #Jost+label{
 font-family:Jost;
 }
@@ -261,39 +245,7 @@ font-family:Roboto Slab;
 font-family:Noto Serif;
 }
 
-
-[type=text]{
-color:inherit;
-font-size:inherit;
-font-weight:500;
-font-family:Jost;
-width:100%;
-padding:5px 0 10px;
-border:none;
-border-bottom:2px solid #888;
-outline:none;
-appearance:none;
--webkit-appearance:none;
--moz-appearance:none;
-}
-[type=text]:focus{
-border-bottom:2px solid transparent;
-}
-
-
-#start{
-display:inline-block;
-padding:15px 25px;
-border-radius:30px;
-color:#fff;
-text-transform:uppercase;
-letter-spacing:1px;
-background:#F1574B;
-cursor:pointer;
-}
-
-
-
+/* Темы */
 [name=theme]+label{
 border-radius:50%;
 padding:1em;
@@ -399,60 +351,90 @@ background:#54BEEE;
 fill:#333;
 }
 
+/* Настройки розыгрыша */
+[type=text]{
+color:inherit;
+font-size:inherit;
+font-weight:500;
+font-family:Jost;
+width:100%;
+padding:5px 0 10px;
+border:none;
+border-bottom:2px solid #888;
+outline:none;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+}
+[type=text]:focus{
+border-bottom:2px solid transparent;
+}
+
+#start{
+display:inline-block;
+padding:15px 25px;
+border-radius:30px;
+color:#fff;
+text-transform:uppercase;
+letter-spacing:1px;
+background:#F1574B;
+cursor:pointer;
+}
+
 
 
 @media (hover:none) and (pointer:coarse){
-body{
-font-size:.85em;
-}
+	body{
+	font-size:.85em;
+	}
 
-#lightbox{
-font-size:1.3em;
-width:14em;
-}
+	#replay svg{
+	margin-top:0;
+	}
 
-.menu,.menu:before,.menu:after{
-height:3px;
-}
-.menu{
-margin-top:-1px;
-}
+	.menu,.menu:before,.menu:after{
+	height:3px;
+	}
+	.menu{
+	margin-top:-1px;
+	}
 
-#replay svg{
-margin-top:0;
-}
+	svg#maximize{
+	display:block;
+	}
+	:fullscreen #maximize{
+	display:none;
+	}
+	:-webkit-full-screen #maximize{
+	display:none;
+	}
+	:-moz-full-screen #maximize{
+	display:none;
+	}
+	:-ms-fullscreen #maximize{
+	display:none;
+	}
 
-svg#maximize{
-display:block;
-}
-:fullscreen #maximize{
-display:none;
-}
-:-webkit-full-screen #maximize{
-display:none;
-}
-:-moz-full-screen #maximize{
-display:none;
-}
-:-ms-fullscreen #maximize{
-display:none;
-}
+	svg#minimize{
+	display:none;
+	}
+	:fullscreen #minimize{
+	display:block;
+	}
+	:-webkit-full-screen #minimize{
+	display:block;
+	}
+	:-moz-full-screen #minimize{
+	display:block;
+	}
+	:-ms-fullscreen #minimize{
+	display:block;
+	}
 
-svg#minimize{
-display:none;
-}
-:fullscreen #minimize{
-display:block;
-}
-:-webkit-full-screen #minimize{
-display:block;
-}
-:-moz-full-screen #minimize{
-display:block;
-}
-:-ms-fullscreen #minimize{
-display:block;
-}
+	#lightbox{
+	font-size:1.3em;
+	width:14em;
+	}
 }
 </style>
 <div id="logo"></div>
@@ -467,7 +449,7 @@ display:block;
 <div id="lotto">
 	<div id="wrap_wrap_number">
 		<div id="wrap_number">
-			<div id="number"><span></span></div>
+			<div id="number"></div>
 		</div>
 	</div>
 	<div id="generate">Разыграть</div>
@@ -520,7 +502,7 @@ display:block;
 			</div>
 		</div>
 	</div>
-	<div id="under_lightbox"><div>
+	<div id="lightbox_shadow"><div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -534,39 +516,7 @@ $(document).ready(function(){
 	let members;
 	let prizes;
 
-	$('[type=text]').on('input',function(){
-		if(this.value.match(/[^\d]/g)){
-			this.value=this.value.replace(/[^\d]/g,'');
-		}
-	})
-
-	$('#maximize').click(function(){
-		var fullscreen=$('html')[0];
-		if(fullscreen.requestFullscreen){
-			fullscreen.requestFullscreen();
-		}else if(fullscreen.webkitRequestFullscreen){
-			fullscreen.webkitRequestFullscreen();
-		}else if(fullscreen.msRequestFullscreen){
-			fullscreen.msRequestFullscreen();
-		}else if(fullscreen.mozRequestFullScreen){
-			fullscreen.mozRequestFullScreen();
-		}
-	});
-
-	$('#minimize').click(function(){
-		if(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullscreenElement||document.msFullscreenElement){
-			if(document.exitFullscreen){
-				document.exitFullscreen();
-			}else if(document.webkitExitFullscreen){
-				document.webkitExitFullscreen();
-			}else if(document.mozCancelFullScreen){
-				document.mozCancelFullScreen();
-			}else if(document.msExitFullscreen){
-				document.msExitFullscreen();
-			}
-		}
-	});
-
+	// Меню настроек розыгрыша
 	$('#replay').click(function(){
 		$('#menu').trigger('click');
 		$('#menu_settings').hide();
@@ -577,6 +527,17 @@ $(document).ready(function(){
 		},800);
 	});
 
+	$('[type=text]').on('input',function(){
+		if(this.value.match(/[^\d]/g)){
+			this.value=this.value.replace(/[^\d]/g,'');
+		}
+	}).focus(function(){
+		setTimeout(()=>{
+			$(this).val($(this).val()).select();
+		},100);
+	});
+
+	// Начинаем розыгрыш
 	$('#start').click(function(){
 		members=Number($('#members').val());
 		prizes=Number($('#prizes').val());
@@ -601,6 +562,7 @@ $(document).ready(function(){
 		}
 	});
 
+	// Генерируем случайное число
 	$('#generate').click(function(){
 		if($('#generate').hasClass('open')&&click<members&&click<prizes){
 			click++;
@@ -629,23 +591,8 @@ $(document).ready(function(){
 			});
 		}
 	});
-	$(document).keydown(function(e){
-		if(e.key=='Enter'){
-			if($('#wrap_lightbox').width()==0){
-				$('#generate').trigger('click');
-			}else if($('#prizes').is(':focus')){
-				$('#start').trigger('click');
-			}
-		}
-	});
 
-	$('[type=text]').focus(function(){
-		setTimeout(()=>{
-			$(this).val($(this).val()).select();
-		},100);
-	});
-
-//$('???').css('transition-duration').replace('s','')*1000=400
+	//$('???').css('transition-duration').replace('s','')*1000(=400)
 	$('#menu').click(function(){
 		if($('#menu_start').is(':hidden')){
 			$('#menu_settings').show();
@@ -664,15 +611,8 @@ $(document).ready(function(){
 			},400);
 		});
 	});
-	$(document).keydown(function(e){
-		if(e.key=='Escape'){
-			$('#close').trigger('click');
-		}
-	})
-	$('#under_lightbox').click(function(e){
-		$('#close').trigger('click');
-	});
 
+	// Drag-событие на вызов и отзыв меню
 	mouseDrag=[];
 	touchDrag=[];
 	$('body').mousedown(function(e){
@@ -709,21 +649,78 @@ $(document).ready(function(){
 		}
 	});
 
-	if(localStorage['lotto_header']){
-		$('#'+localStorage['lotto_header']).prop('checked',true);
-	}
-	$('#number span,title').text($('[name=header]:checked+label').text()+'!');
+	// Убираем меню по нажатию на его подложку
+	$('#lightbox_shadow').click(function(e){
+		$('#close').trigger('click');
+	});
 
-	$('[name=header]').click(function(){
-		localStorage['lotto_header']=$(this).attr('id');
-		if(click==undefined||click==0){
-			$('title').text($('[name=header]:checked+label').text()+'!');
-			$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
-			$('#wrap_number').animate({height:$('#number').height()},0);
+	// События клавиатуры
+	$(document).keydown(function(e){
+		if(e.key=='Escape'){
+			$('#close').trigger('click');
+		}
+		else if(e.key=='Enter'){
+			if($('#wrap_lightbox').width()==0){
+				$('#generate').trigger('click');
+			}else if($('#prizes').is(':focus')){
+				$('#start').trigger('click');
+			}
 		}
 	});
 
+	// Полноэкранный режим
+	$('#maximize').click(function(){
+		var fullscreen=$('html')[0];
+		if(fullscreen.requestFullscreen){
+			fullscreen.requestFullscreen();
+		}else if(fullscreen.webkitRequestFullscreen){
+			fullscreen.webkitRequestFullscreen();
+		}else if(fullscreen.msRequestFullscreen){
+			fullscreen.msRequestFullscreen();
+		}else if(fullscreen.mozRequestFullScreen){
+			fullscreen.mozRequestFullScreen();
+		}
+	});
+	$('#minimize').click(function(){
+		if(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullscreenElement||document.msFullscreenElement){
+			if(document.exitFullscreen){
+				document.exitFullscreen();
+			}else if(document.webkitExitFullscreen){
+				document.webkitExitFullscreen();
+			}else if(document.mozCancelFullScreen){
+				document.mozCancelFullScreen();
+			}else if(document.msExitFullscreen){
+				document.msExitFullscreen();
+			}
+		}
+	});
 
+	// Выбор заголовков и их запись в Cookies
+	if(localStorage['lotto_header']){
+		$('#'+localStorage['lotto_header']).prop('checked',true);
+	}
+	$('#number,title').text($('[name=header]:checked+label').text()+'!');
+
+	$('[name=header]').click(function(){
+		if(localStorage['lotto_header']!=$(this).attr('id')){
+			localStorage['lotto_header']=$(this).attr('id');
+			if(click==0||click==prizes){
+				$('title').text($('[name=header]:checked+label').text()+'!');
+				$('#number').html($('#number').html()+'<br>'+$('[name=header]:checked+label').text()+'!');
+				$('#wrap_number').animate({height:$('#number').height()},0);
+
+				$('#wrap_winners').animate({height:0},0,function(){
+					setTimeout(()=>{
+						$('#winners').html('');
+					},400);
+				});
+				
+				click=0;
+			}
+		}
+	});
+
+	// Выбор шрифтов и их запись в Cookies
 	if(localStorage['lotto_font']){
 		$('#'+localStorage['lotto_font']).prop('checked',true);
 	}
@@ -734,7 +731,7 @@ $(document).ready(function(){
 		$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
 	});
 
-
+	// Выбор тем и их запись в Cookies
 	if(localStorage['lotto_theme']){
 		$('#'+localStorage['lotto_theme']).prop('checked',true);
 	}
