@@ -13,7 +13,7 @@
 body{
 font-family:Google Sans;
 font-weight:500;
-height:100%;
+height:100vh;
 text-align:center;
 margin:0;
 -webkit-tap-highlight-color:transparent;
@@ -507,7 +507,7 @@ cursor:pointer;
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-$(document).ready(function(){
+$(document).ready(function(){$(window).resize(function(){alert($(this).innerHeight)})
 	var randomNumber=function(min,max){
 		return Math.floor(Math.random()*(max-min+1)+min);
 	}
