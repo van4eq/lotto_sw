@@ -7,6 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@300..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600&display=swap');
 
@@ -42,7 +43,6 @@ overflow:hidden;
 width:100%;
 height:auto;
 display:block;
-margin-top:-1px;
 }
 
 #menu{
@@ -65,10 +65,10 @@ top:50%;
 margin-top:-1.125px;
 }
 .menu:before{
-top:10px;
+top:9px;
 }
 .menu:after{
-bottom:10px;
+bottom:9px;
 }
 
 
@@ -129,6 +129,7 @@ line-height:1.3em;
 
 
 
+/* Полноэкранный режим */
 #fullscreen{
 position:absolute;
 bottom:3.25em;
@@ -143,8 +144,34 @@ width:100%;
 height:auto;
 display:block;
 }
-svg#maximize,svg#minimize{
+
+:fullscreen #maximize{
 display:none;
+}
+:-webkit-full-screen #maximize{
+display:none;
+}
+:-moz-full-screen #maximize{
+display:none;
+}
+:-ms-fullscreen #maximize{
+display:none;
+}
+
+svg#minimize{
+display:none;
+}
+:fullscreen #minimize{
+display:block;
+}
+:-webkit-full-screen #minimize{
+display:block;
+}
+:-moz-full-screen #minimize{
+display:block;
+}
+:-ms-fullscreen #minimize{
+display:block;
 }
 
 
@@ -232,11 +259,11 @@ color:#F1574B;
 }
 
 /* Шрифты */
-#Jost+label{
-font-family:Jost;
-}
 #Google_Sans+label{
 font-family:Google Sans;
+}
+#Shantell_Sans+label{
+font-family:Shantell Sans;
 }
 #Roboto_Slab+label{
 font-family:Roboto Slab;
@@ -356,7 +383,7 @@ fill:#333;
 color:inherit;
 font-size:inherit;
 font-weight:500;
-font-family:Jost;
+font-family:inherit;
 width:100%;
 padding:5px 0 10px;
 border:none;
@@ -368,6 +395,30 @@ appearance:none;
 }
 [type=text]:focus{
 border-bottom:2px solid transparent;
+}
+[type=text]:disabled{
+background:none;
+color:#888;
+border-bottom:2px solid transparent;
+}
+
+[type=checkbox]{
+display:none;
+}
+[type=checkbox]+label{
+cursor:pointer;
+margin:1.25em 0 0 0;
+display:inline-block;
+color:#888;
+}
+[type=checkbox]+label:before{
+content:'+ ';
+}
+[type=checkbox]:checked+label{
+color:#F1574B;
+}
+[type=checkbox]:checked+label:before{
+content:'× ';
 }
 
 #start{
@@ -381,15 +432,25 @@ background:#F1574B;
 cursor:pointer;
 }
 
+#list+label{
+display:none;
+}
+
+ol{
+display:none;
+padding:0;
+list-style-position:inside;
+outline:none;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+}
+
 
 
 @media (hover:none) and (pointer:coarse){
 	body{
 	font-size:.85em;
-	}
-
-	#replay svg{
-	margin-top:0;
 	}
 
 	.menu,.menu:before,.menu:after{
@@ -400,38 +461,6 @@ cursor:pointer;
 	}
 	.menu:after{
 	bottom:8px;
-	}
-
-	svg#maximize{
-	display:block;
-	}
-	:fullscreen #maximize{
-	display:none;
-	}
-	:-webkit-full-screen #maximize{
-	display:none;
-	}
-	:-moz-full-screen #maximize{
-	display:none;
-	}
-	:-ms-fullscreen #maximize{
-	display:none;
-	}
-
-	svg#minimize{
-	display:none;
-	}
-	:fullscreen #minimize{
-	display:block;
-	}
-	:-webkit-full-screen #minimize{
-	display:block;
-	}
-	:-moz-full-screen #minimize{
-	display:block;
-	}
-	:-ms-fullscreen #minimize{
-	display:block;
 	}
 
 	#lightbox{
@@ -483,7 +512,7 @@ cursor:pointer;
 				
 				<div class="headers">Шрифт</div>
 				<input type="radio" name="font" id="Google_Sans" checked><label for="Google_Sans">Google&nbsp;Sans</label>
-				<input type="radio" name="font" id="Jost"><label for="Jost">Jost</label>
+				<input type="radio" name="font" id="Shantell_Sans"><label for="Shantell_Sans">Shantell&nbsp;Sans</label>
 				<input type="radio" name="font" id="Roboto_Slab"><label for="Roboto_Slab">Roboto&nbsp;Slab</label>
 				<input type="radio" name="font" id="Noto_Serif"><label for="Noto_Serif">Noto&nbsp;Serif</label>
 
@@ -498,10 +527,15 @@ cursor:pointer;
 				<div class="headers">Участников:</div>
 				<input type="text" id="members" value="30" inputmode="numeric">
 
+				<input type="checkbox" id="paste"><label for="paste">Вставить список участников из буфера обмена</label>
+
 				<div class="headers">Призов:</div>
 				<input type="text" id="prizes" value="3" inputmode="numeric">
 
 				<div class="headers" id="start">Старт!</div>
+
+				<input type="checkbox" id="list"><label for="list">Показать список участников</label>
+				<ol contenteditable></ol>
 			</div>
 		</div>
 	</div>
@@ -538,6 +572,43 @@ $(document).ready(function(){
 		setTimeout(()=>{
 			$(this).val($(this).val()).select();
 		},100);
+	});
+
+	// Вставка имён участников
+	$('#paste').click(function(){
+		if($(this).is(':checked')){
+			navigator.clipboard.readText().then(text=>{
+				text='\n'+text.replace(/\d|\.|\,|\:|\#|\№/g,'').replace(/^\s+$/gm,'').replace(/^\n+/,'');
+				$('ol').html(text.replaceAll('\n','<li>'));
+				$('#members').val($('li').length).prop('disabled',true);
+				$('#list+label').css('display','inline-block');
+			}).catch(err=>{
+				$('#paste').prop('checked',false);
+				console.log('Опять чё-то не так',err);
+			});
+		}
+		if(!$(this).is(':checked')){
+			$('ol').html('').hide();
+			$('#members').prop('disabled',false);
+			$('#list+label').hide()
+			$('#list').prop('checked',false);
+		}
+	});
+
+	$('#list').click(function(){
+		if($(this).is(':checked')){
+			$('ol').show();
+		}
+		if(!$(this).is(':checked')){
+			$('ol').hide();
+		}
+	});
+
+	$('ol').on('input',function(){
+		$('#members').val($('li').length);
+	}).blur(function(){
+		$(this).html($(this).html().replace(/\d|\.|\,|\:|\#|\№/g,'').replaceAll('<li><br></li>','').replaceAll('<br>','').replaceAll('<li></li>','').replace(/\ +|\t+|(?:&nbsp;)+/g,' ').replace(/^\ |\ $/gm,''));
+		$('#members').val($('li').length);
 	});
 
 	// Начинаем розыгрыш
@@ -589,7 +660,8 @@ $(document).ready(function(){
 					setTimeout(()=>$('#generate').addClass('open'),delay);
 				}
 
-				$('#winners').html($('#winners').html()+'<br>'+click+'-й приз: '+num).html($('#winners').html().replace(/^\<br\>/,''));
+				var winner=$('#paste').is(':checked')?`#${click}: ${$('li').eq(num-1).text()}`:`${click}-й приз: ${num}`;
+				$('#winners').html($('#winners').html()+'<br>'+winner).html($('#winners').html().replace(/^\<br\>/,''));
 				$('#wrap_winners').delay(delay).animate({height:$('#winners').height()},0);
 			});
 		}
@@ -658,14 +730,24 @@ $(document).ready(function(){
 	});
 
 	// События клавиатуры
-	$(document).keydown(function(e){
-		if(e.key=='Escape'){
+	$(document).on('keydown keyup',function(e){
+		if(e.type=='keyup'){ // Предотварщение срабатываний при удержании клавиш
+			setTimeout(()=>{
+				$('#wrap_lightbox,#prizes').removeClass('stop');
+			},0);
+		}
+		if(e.key=='Escape'){ // События на Esc
 			$('#close').trigger('click');
 		}
-		else if(e.key=='Enter'){
-			if($('#wrap_lightbox').width()==0){
+		if(e.key=='Enter'){ // События на Enter
+			if($('#wrap_lightbox').is(':hidden')&&!$('#wrap_lightbox').hasClass('stop')){
+				$('#wrap_lightbox').addClass('stop');
 				$('#generate').trigger('click');
-			}else if($('#prizes').is(':focus')){
+			}
+			if($('#members').is(':focus')){
+				$('#prizes').addClass('stop').focus();
+			}
+			if($('#prizes').is(':focus')&&!$('#prizes').hasClass('stop')){
 				$('#start').trigger('click');
 			}
 		}
