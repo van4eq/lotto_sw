@@ -667,7 +667,7 @@ $(document).ready(function(){
 					setTimeout(()=>$('#generate').addClass('open'),delay);
 				}
 
-				var winner=$('#paste').is(':checked')?`#${click}: ${$('li').eq(num-1).text()}`:`${click}-й приз: ${num}`;
+				var winner=$('#paste').is(':checked')?`#${click}: ${$('li').eq(num-1).text()} (${num})`:`${click}-й приз: ${num}`;
 				$('#winners').html($('#winners').html()+'<br>'+winner).html($('#winners').html().replace(/^\<br\>/,''));
 				$('#wrap_winners').delay(delay).animate({height:$('#winners').height()},0);
 			});
