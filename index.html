@@ -519,7 +519,7 @@ appearance:none;
 				
 				<div class="headers">Шрифт</div>
 				<input type="radio" name="font" id="Google_Sans" checked><label for="Google_Sans">Google&nbsp;Sans</label>
-				<input type="radio" name="font" id="Shantell_Sans"><label for="Shantell_Sans">Shantell&nbsp;Sans</label>
+				<input type="radio" name="font" id="Shantell_Sans"><label for="Shantell_Sans">Shantell</label>
 				<input type="radio" name="font" id="Roboto_Slab"><label for="Roboto_Slab">Roboto&nbsp;Slab</label>
 				<input type="radio" name="font" id="Noto_Serif"><label for="Noto_Serif">Noto&nbsp;Serif</label>
 
@@ -816,11 +816,11 @@ $(document).ready(function(){
 	if(localStorage['lotto_sw_font']){
 		$('#'+localStorage['lotto_sw_font']).prop('checked',true);
 	}
-	$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
+	$('body').css('font-family',$('[name=font]:checked').attr('id').replaceAll('_',' '));
 
 	$('[name=font]').click(function(){
 		localStorage['lotto_sw_font']=$(this).attr('id');
-		$('body').css('font-family',$('[name=font]:checked+label').text().replace(/\s/g,' '));
+		$('body').css('font-family',$('[name=font]:checked').attr('id').replaceAll('_',' '));
 	});
 
 	// Выбор тем и их запись в Cookies
