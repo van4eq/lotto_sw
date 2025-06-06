@@ -586,9 +586,13 @@ $(document).ready(function(){
 		if($(this).is(':checked')){
 			navigator.clipboard.readText().then(text=>{
 				text='\n'+text.replace(/\d|\.|\,|\:|\#|\№/g,'').replace(/^\s+$/gm,'').replace(/^\n+/,'');
-				$('ol').html(text.replaceAll('\n','<li>'));
-				$('#members').val($('li').length).prop('disabled',true);
-				$('#list+label').css('display','inline-block');
+				if(text.replace(/\s+/g,'')!=''){
+					$('ol').html(text.replaceAll('\n','<li>'));
+					$('#members').val($('li').length).prop('disabled',true);
+					$('#list+label').css('display','inline-block');
+				}else{
+					$(this).prop('checked',false);
+				}
 			}).catch(err=>{
 				$('#paste').prop('checked',false);
 				console.log('Опять чё-то не так',err);
