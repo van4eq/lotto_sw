@@ -387,19 +387,19 @@ font-family:inherit;
 width:100%;
 padding:5px 0 10px;
 border:none;
-border-bottom:2px solid #888;
+border-bottom:3px solid #888;
 outline:none;
 appearance:none;
 -webkit-appearance:none;
 -moz-appearance:none;
 }
 [type=text]:focus{
-border-bottom:2px solid transparent;
+border-bottom:3px solid transparent;
 }
 [type=text]:disabled{
 background:none;
 color:#888;
-border-bottom:2px solid transparent;
+border-bottom:3px solid transparent;
 }
 
 [type=checkbox]{
@@ -566,9 +566,7 @@ $(document).ready(function(){
 		$('#menu_settings').hide();
 		$('#menu_start').show();
 
-		setTimeout(()=>{
-			$('#members').focus().val($('#members').val()).select();
-		},800);
+		setTimeout(()=>$('[type=text]:not([disabled]):first').focus().val($('[type=text]:not([disabled]):first').val()).select(),800);
 	});
 
 	$('[type=text]').on('input',function(){
@@ -576,9 +574,7 @@ $(document).ready(function(){
 			this.value=this.value.replace(/[^\d]/g,'');
 		}
 	}).focus(function(){
-		setTimeout(()=>{
-			$(this).val($(this).val()).select();
-		},100);
+		setTimeout(()=>$(this).val($(this).val()).select(),100);
 	});
 
 	// Вставка имён участников
@@ -633,9 +629,7 @@ $(document).ready(function(){
 				$('#wrap_number').animate({height:$('#number').height()},0);
 
 				$('#wrap_winners').animate({height:0},0,function(){
-					setTimeout(()=>{
-						$('#winners').html('');
-					},400);
+					setTimeout(()=>$('#winners').html(''),400);
 				});
 			}
 
@@ -743,9 +737,7 @@ $(document).ready(function(){
 	// События клавиатуры
 	$(document).on('keydown keyup',function(e){
 		if(e.type=='keyup'){ // Предотварщение срабатываний при удержании клавиш
-			setTimeout(()=>{
-				$('#wrap_lightbox,#prizes').removeClass('stop');
-			},0);
+			setTimeout(()=>$('#wrap_lightbox,#prizes').removeClass('stop'));
 		}
 		if(e.key=='Escape'){ // События на Esc
 			$('#close').trigger('click');
@@ -806,9 +798,7 @@ $(document).ready(function(){
 				$('#wrap_number').animate({height:$('#number').height()},0);
 
 				$('#wrap_winners').animate({height:0},0,function(){
-					setTimeout(()=>{
-						$('#winners').html('');
-					},400);
+					setTimeout(()=>$('#winners').html(''),400);
 				});
 				
 				click=0;
