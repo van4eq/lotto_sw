@@ -586,19 +586,23 @@ $(document).ready(function(){
 					$('ol').html(text.replaceAll('\n','<li>'));
 					$('#members').val($('li').length).prop('disabled',true);
 					$('#list+label').css('display','inline-block');
+					$('[type=text]:not([disabled]):first').focus();
 				}else{
 					$(this).prop('checked',false);
+					$('[type=text]:not([disabled]):first').focus();
 				}
 			}).catch(err=>{
-				$('#paste').prop('checked',false);
-				console.log('Опять чё-то не так',err);
+				$(this).prop('checked',false);
+				console.log(err);
+				$('[type=text]:not([disabled]):first').focus();
 			});
 		}
 		if(!$(this).is(':checked')){
 			$('ol').html('').hide();
 			$('#members').prop('disabled',false);
-			$('#list+label').hide()
+			$('#list+label').hide();
 			$('#list').prop('checked',false);
+			$('[type=text]:not([disabled]):first').focus();
 		}
 	});
 
